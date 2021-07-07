@@ -1,13 +1,13 @@
 Package: rajter.flex
-Title: What the Package Does (One Line, Title Case)
+Title: A Flextable Based Statistics For RMD
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Miroslav",
+           family = "Rajter",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           email = "miroslav.rajter@gmail.com",
+           comment = c(ORCID = "0000-0002-2608-3196"))
+Description: The package for doing statistics and creating pretty word tables using flaxtable.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to
     pick a license
 Encoding: UTF-8
