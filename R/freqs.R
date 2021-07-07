@@ -7,14 +7,14 @@
 #' @param heading Which heading should be used for title (default=2)
 #'
 #' @return Title and table
-#' @export
+#'
 #'
 #' @examples
 freq.flex.rmd=function(vari, data, deci=1, heading=2){
   t=freq.flex(vari,data,deci)
   cat("## ", colnames(t$header$dataset)[1], "\n", sep="") #heading level shoul be implemented
   cat("\n")
-  knitr::knit_print(t)
+  print(t)
   cat("\n")
 }
 
