@@ -11,7 +11,6 @@
 #'   \item "standard" - N, M, SD, Min, Q1, C, Q3, Max, Skew, Kurt, SW, SWp
 #'   \item other available statistics - missing valuse(Miss), Kolmogorov-Smirnov (KS, KSp), standard errors for Skewness and Kurtosis (SEskew, SEkurt)
 #' }
-#' default is (N, M, SD, Min, Q1, C, Q3, Max). Optional parametres include missing (miss), variance (Var), Skewness (Skew), SE Skewnes (SE_skew), Kurtosis (Kurt), SE Kurtosis (SE_kurt), K-S test with Lilliefors correction (KS), K-S significance (KSp), Shapiro-Wilk test (SW), S-W significance (SWp)
 #' @param by section variable, default=FALSE
 #' @param deci number of decimals for M, everything else is done automatically (default=1)
 #' @param lang language (default is "hr")

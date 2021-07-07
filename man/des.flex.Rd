@@ -17,8 +17,7 @@ des.flex(data, vars, param_set = "standard", by = FALSE, deci = 1, lang = "hr")
 \item "simple" - N, Min, Max, M, SD
 \item "standard" - N, M, SD, Min, Q1, C, Q3, Max, Skew, Kurt, SW, SWp
 \item other available statistics - missing valuse(Miss), Kolmogorov-Smirnov (KS, KSp), standard errors for Skewness and Kurtosis (SEskew, SEkurt)
-}
-default is (N, M, SD, Min, Q1, C, Q3, Max). Optional parametres include missing (miss), variance (Var), Skewness (Skew), SE Skewnes (SE_skew), Kurtosis (Kurt), SE Kurtosis (SE_kurt), K-S test with Lilliefors correction (KS), K-S significance (KSp), Shapiro-Wilk test (SW), S-W significance (SWp)}
+}}
 
 \item{by}{section variable, default=FALSE}
 
