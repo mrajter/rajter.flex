@@ -8,8 +8,7 @@ Authors@R:
            email = "miroslav.rajter@gmail.com",
            comment = c(ORCID = "0000-0002-2608-3196"))
 Description: The package for doing statistics and creating pretty word tables using flaxtable.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
