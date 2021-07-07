@@ -115,10 +115,7 @@ comp.to.flex=function(df, param){
     flextable::align(align="center", part="body") %>%
     flextable::align(j=1,align="left", part="body")
 
-
-
-
-  return(df)
+  df
 }
 
 

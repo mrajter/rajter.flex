@@ -301,4 +301,5 @@ des.to.flex=function(res){
     flextable::align(align="center", part="header") %>%
     flextable::align(align="center", part="body") %>%
     flextable::align(j=1,align="left", part="body")
+  res
 }
