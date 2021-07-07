@@ -19,4 +19,10 @@ Imports:
     flextable,
     officer,
     sjlabelled,
-    magrittr
+    magrittr,
+    knitr,
+    haven,
+    dplyr,
+    nortest,
+    data.table,
+    labelled

@@ -2,4 +2,13 @@
 
 export("%>%")
 export(comp.flex)
+export(des.flex)
+export(freq.flex.rmd)
+export(load.SPSS)
+export(r.ks)
+export(r.kurtosis)
+export(r.kurtosis.se)
+export(r.skewness)
+export(r.skewness.se)
+export(r.sw)
 importFrom(magrittr,"%>%")
