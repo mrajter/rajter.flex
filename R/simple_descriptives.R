@@ -4,7 +4,14 @@
 #'
 #' @param data data.frame with variables
 #' @param vars variables as list as strings
-#' @param param_set list of parameters with order in the table - default is (N, M, SD, Min, Q1, C, Q3, Max). Optional parametres include missing (miss), variance (Var), Skewness (Skew), SE Skewnes (SE_skew), Kurtosis (Kurt), SE Kurtosis (SE_kurt), K-S test with Lilliefors correction (KS), K-S significance (KSp), Shapiro-Wilk test (SW), S-W significance (SWp)
+#' @param param_set list of parameters with order in the table (as strings):
+#' \itemize{
+#'   \item default - "standard"
+#'   \item "simple" - N, Min, Max, M, SD
+#'   \item "standard" - N, M, SD, Min, Q1, C, Q3, Max, Skew, Kurt, SW, SWp
+#'   \item other available statistics - missing valuse(Miss), Kolmogorov-Smirnov (KS, KSp), standard errors for Skewness and Kurtosis (SEskew, SEkurt)
+#' }
+#' default is (N, M, SD, Min, Q1, C, Q3, Max). Optional parametres include missing (miss), variance (Var), Skewness (Skew), SE Skewnes (SE_skew), Kurtosis (Kurt), SE Kurtosis (SE_kurt), K-S test with Lilliefors correction (KS), K-S significance (KSp), Shapiro-Wilk test (SW), S-W significance (SWp)
 #' @param by section variable, default=FALSE
 #' @param deci number of decimals for M, everything else is done automatically (default=1)
 #' @param lang language (default is "hr")
@@ -132,7 +139,7 @@ des.flex<-function(data, vars, param_set="standard", by=FALSE, deci=1, lang="hr"
   names(res)=c("Variable", "N", "Miss","Min", "Max", "M","SD","C","Q1","Q3",
                "Skew","SE_skew", "Kurt", "SE_kurt","KS", "KSp", "SW", "SWp")
   if (param_set=="simple"){
-    res=res %>% dplyr::select("Variable", "N", "M", "SD")
+    res=res %>% dplyr::select("Variable", "N", "Min", "Max", "M", "SD")
   } else if (param_set=="standard") {
     res=res %>% dplyr::select("Variable", "N", "M", "SD", "Min", "Q1", "C","Q3", "Max", "Skew", "Kurt", "SW", "SWp")
 
