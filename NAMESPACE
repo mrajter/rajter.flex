@@ -3,6 +3,7 @@
 export("%>%")
 export(comp.flex)
 export(des.flex)
+export(freq.flex)
 export(freq.flex.rmd)
 export(load.SPSS)
 export(r.ks)

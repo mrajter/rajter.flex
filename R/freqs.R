@@ -16,6 +16,19 @@ freq.flex.rmd=function(vari, data, deci=1, heading=2){
   cat("\n")
 }
 
+
+
+
+
+
+#' Frequencies table
+#'
+#' @param vari variable name as string
+#' @param data dataset
+#' @param deci number of decimals for percentages (default=1)
+#'
+#' @return Flextable object
+#' @export
 freq.flex=function(vari, data, deci=1) {
   t=as.data.frame(table(data[[vari]]))
 

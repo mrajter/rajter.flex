@@ -24,5 +24,4 @@ Imports:
     haven,
     dplyr,
     nortest,
-    data.table,
     labelled
