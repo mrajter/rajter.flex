@@ -115,6 +115,10 @@ comp.to.flex=function(df, param){
     flextable::align(align="center", part="header") %>%
     flextable::align(align="center", part="body") %>%
     flextable::align(j=1,align="left", part="body")
+  pretty_dims=flextable::dim_pretty(df)$widths
+  for (i in 1:length(pretty_dims)){
+    df=flextable::width(df, j=i,pretty_dims[i])
+  }
 
   df
 }
