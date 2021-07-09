@@ -75,13 +75,14 @@ comp.flex=function(form, data, param=TRUE, m.deci=1, p.deci=1, lang="hr"){
   }
 
 
-
+  #format cells and create data.frame
   if (param==TRUE) {
     r.desc$M=format(round(r.desc$M,m.deci), nsmall=m.deci)
     r.desc$SD=format(round(r.desc$SD,m.deci+1), nsmall=m.deci+1)
     r.fre=format(round(r.fre,p.deci), nsmall=p.deci)
     res.df=cbind(r.names, r.desc, r.fre)
   } else {
+    r.fre=format(round(r.fre,p.deci), nsmall=p.deci)
     res.df=cbind(r.names, r.fre)
   }
 
