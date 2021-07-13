@@ -10,7 +10,7 @@
 #' @export
 freq.flex.rmd=function(vari, data, deci=1, heading=2){
   t=freq.flex(vari,data,deci)
-  cat("## ", colnames(t$header$dataset)[1], "\n", sep="") #heading level shoul be implemented
+  cat("## ", colnames(t$header$dataset)[1], "\n", sep="") #heading level should be implemented
   cat("\n")
   t
   cat("\n")
@@ -37,10 +37,17 @@ freq.flex=function(vari, data, deci=1) {
     } else {
       t.name=sjlabelled::get_label(data[[vari]])
     }
-
+#IMA PROBLEM S PRAZNIM KATEGORIjAMA KADA JE LABELLED DATA!!!!
   if (is.null(sjlabelled::get_labels(data[[vari]], values = "as.name"))==FALSE) {
-    vl=sjlabelled::get_labels(data[[vari]], values = "as.name")
-    t$Var1=lapply(t$Var1, function(x) {x=vl[x]})
+    #collect value labels
+    v.labs=data.frame(labs=names(attributes(data[[vari]])$labels), vals=unname(attributes(data[[vari]])$labels))
+    #manually collect frequencies
+    fre.t=c()
+    for (j in 1:nrow(v.labs)) {
+      fre.t=c(fre.t,length(data[[vari]][data[[vari]]==v.labs$vals[j]]))
+    }
+    #replace t data frame
+    t=data.frame(Var1=v.labs$labs, Freq=fre.t)
   } else {
       t$Var1=lapply(t$Var1,as.character)
   }
