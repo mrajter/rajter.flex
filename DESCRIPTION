@@ -1,5 +1,5 @@
 Package: rajter.flex
-Title: A Flextable Based Statistics for RMD
+Title: A Flextable Based Statistics Package
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Miroslav",
@@ -24,4 +24,5 @@ Imports:
     haven,
     dplyr,
     nortest,
-    labelled
+    labelled,
+    Hmisc
