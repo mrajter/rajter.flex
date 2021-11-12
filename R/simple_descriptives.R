@@ -252,7 +252,7 @@ r.kurtosis.se=function(target_variable){
 
 # Kolmogorov Smirnov ------------------------------------------------------
 
-#' Calculates sKolmogorov-Smirnov test with Lilliefors correction
+#' Calculates Kolmogorov-Smirnov test with Lilliefors correction
 #'
 #' uses nortest package
 #'
