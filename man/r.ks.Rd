@@ -2,7 +2,7 @@
 % Please edit documentation in R/simple_descriptives.R
 \name{r.ks}
 \alias{r.ks}
-\title{Calculates sKolmogorov-Smirnov test with Lilliefors correction}
+\title{Calculates Kolmogorov-Smirnov test with Lilliefors correction}
 \usage{
 r.ks(target_variable)
 }
