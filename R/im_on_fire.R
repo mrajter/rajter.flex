@@ -2,7 +2,7 @@
 #' Set up everything needed to start an analysis
 #'
 #' This function will do necessary steps to set up an environment for an analysis
-#' Basically, it sets up a working directory, creates options variable in parent environment, creates folders and downloads template file for officer package.
+#' Basically, it sets up a working directory, creates options variable in global environment, creates folders and downloads template file for officer package.
 #'
 #' You should really start with this
 #'
@@ -35,12 +35,13 @@ im_on_fire<- function(){
   utils::download.file("https://github.com/mrajter/flex_support_files/raw/main/template.docx", "Templates/template.docx", mode="wb")
 
   #assign to officer variable
-  doc<<-officer::read_docx("Templates/template.docx")
+  assign("doc", officer::read_docx("Templates/template.docx"), envir = .GlobalEnv)
+  #doc<<-officer::read_docx("Templates/template.docx")
 
   #create options variable
-  r.flex.opts<<-list(lang="hr", #<<- radi assignment varijable u parent environment(ovdje je to global)
-                  d.p=".",
-                  lead.zero=TRUE)
+  assign("r.flex.opts",
+         list(lang="hr", d.p=".", lead.zero=TRUE),
+         envir = .GlobalEnv)
 }
 
 

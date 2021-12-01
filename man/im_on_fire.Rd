@@ -23,7 +23,7 @@ environment setup and variables:
 }
 \description{
 This function will do necessary steps to set up an environment for an analysis
-Basically, it sets up a working directory, creates options variable in parent environment, creates folders and downloads template file for officer package.
+Basically, it sets up a working directory, creates options variable in global environment, creates folders and downloads template file for officer package.
 }
 \details{
 You should really start with this
