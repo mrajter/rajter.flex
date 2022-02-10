@@ -4,12 +4,26 @@
 \alias{comp.flex}
 \title{Create comperimeter tables}
 \usage{
-comp.flex(form, data, param = TRUE, m.deci = 1, p.deci = 1, lang = "hr")
+comp.flex(
+  data,
+  form,
+  by = NA,
+  by_total = TRUE,
+  param = TRUE,
+  m.deci = 1,
+  p.deci = 1,
+  title = "",
+  option = r.flex.opts
+)
 }
 \arguments{
+\item{data}{dataset}
+
 \item{form}{formula specified as 1 ~ var1 + var2 +varX}
 
-\item{data}{dataset}
+\item{by}{section variable specified with quotes}
+
+\item{by_total}{should totals be included when using section variable (default=TRUE)}
 
 \item{param}{should parametrics (M and SD) be included (default=TRUE)}
 
@@ -17,10 +31,16 @@ comp.flex(form, data, param = TRUE, m.deci = 1, p.deci = 1, lang = "hr")
 
 \item{p.deci}{number of decimal points for percentages (default=1)}
 
-\item{lang}{language (defaut="hr")}
+\item{lang}{language (default="hr")}
 }
 \value{
-data.frame with results
+list with four elements
+\itemize {
+\item type - table type - used for inserting in word document (x-is there a section, desc - are there descriptives)
+\item title - used for table title. Can be set manually or automatically
+\item table - flextable with results
+\item tab.df - results as data.frame
+}
 }
 \description{
 Function creates basic comperimeter flextable with optional descriptives. Variables must be labelled.

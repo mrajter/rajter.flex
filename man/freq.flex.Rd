@@ -4,18 +4,41 @@
 \alias{freq.flex}
 \title{Frequencies table}
 \usage{
-freq.flex(vari, data, deci = 1)
+freq.flex(
+  data,
+  form,
+  deci = 1,
+  has.NA = FALSE,
+  title = "",
+  option = r.flex.opts
+)
 }
 \arguments{
-\item{vari}{variable name as string}
-
 \item{data}{dataset}
 
+\item{form}{variables as formulas (e.g. 1~var1+var2+var3)}
+
 \item{deci}{number of decimals for percentages (default=1)}
+
+\item{has.NA}{should NA values be included (default=FALSE)}
+
+\item{title}{table title. If omitted it will be guessed}
+
+\item{option}{inherited from r.flex.opts}
 }
 \value{
-Flextable object
+list with four elements
+\itemize {
+\item type - table type - used for inserting in word document (x-is there a section, desc - are there descriptives)
+\item title - used for table title. Can be set manually or automatically
+\item table - flextable with results
+\item tab.df - results as data.frame
+}
 }
 \description{
 Frequencies table
+}
+\examples{
+data(mtcars)
+freq.flex(mtcars, 1~gear+cyl)
 }

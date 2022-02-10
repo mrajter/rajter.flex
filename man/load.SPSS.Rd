@@ -13,5 +13,7 @@ load.SPSS(path = "file.choose()")
 loaded data.frame
 }
 \description{
-Function enables loading from SPSS by using haven's method
+Function enables loading from SPSS by using sjlabelled method.
+This means that variables will be loaded as atomic vectors and not of class labelled.
+Variable and value labels can be accessed with check.labs function
 }

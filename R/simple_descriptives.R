@@ -9,16 +9,23 @@
 #'   \item default - "standard"
 #'   \item "simple" - N, Min, Max, M, SD
 #'   \item "standard" - N, M, SD, Min, Q1, C, Q3, Max, Skew, Kurt, SW, SWp
-#'   \item other available statistics - missing valuse(Miss), Kolmogorov-Smirnov (KS, KSp), standard errors for Skewness and Kurtosis (SEskew, SEkurt)
+#'   \item other available statistics - missing values(Miss), Kolmogorov-Smirnov (KS, KSp), standard errors for Skewness and Kurtosis (SEskew, SEkurt)
 #' }
-#' @param by section variable, default=FALSE
+#' @param by section variable, default=FALSE, TO BE DEVELOPED
 #' @param deci number of decimals for M, everything else is done automatically (default=1)
-#' @param lang language (default is "hr")
+#' @param option options variable. To change, modify r.flex.opts variable created by im_on_fire()
+#' @param title table title. If not set it will be determined automatically
 #'
-#' @return data.frame with results
+#' @return list with four elements
+#' \itemize {
+#'     \item type - table type - used for inserting in word document
+#'     \item title - used for table title. Can be set manually or automatically
+#'     \item table - flextable with results
+#'     \item tab.df - results as data.frame
+#' }
 #' @export
 #'
-des.flex<-function(data, vars, param_set="standard", by=FALSE, deci=1, lang="hr"){
+des.flex<-function(data, vars, param_set="standard", by=FALSE, deci=1, option=r.flex.opts, title=""){
   if (missing(vars)) {vars=c(unname(labelled::var_label(data)))}
 
   #empty list for results
@@ -107,20 +114,24 @@ des.flex<-function(data, vars, param_set="standard", by=FALSE, deci=1, lang="hr"
   ##decimals
   #res.min=c()
   #res.max=c()
-  res.M=format(round(res.M,deci),nsmall=deci)
-  res.SD=format(round(res.SD,(deci+1)),nsmall=(deci+1))
-  res.C=format(round(res.C,deci),nsmall=deci)
-  res.Q1=format(round(res.Q1,deci),nsmall=deci)
-  res.Q3=format(round(res.Q3,deci),nsmall=deci)
-  res.Var=format(round(res.Var,(deci+1)),nsmall=(deci+1))
-  res.Skew=format(round(res.Skew,2),nsmall=2)
-  res.SE_skew=format(round(res.SE_skew,2),nsmall=2)
-  res.Kurt=format(round(res.Kurt,2),nsmall=2)
-  res.SE_kurt=format(round(res.SE_kurt,2),nsmall=2)
-  res.KS=format(round(res.KS,2),nsmall=2)
-  res.KSp=format(round(res.KSp,3),nsmall=3)
-  res.SW=format(round(res.SW,2),nsmall=2)
-  res.SWp=format(round(res.SWp,3),nsmall=3)
+  res.M=format(round(res.M,deci),nsmall=deci, decimal.mark = option$d.p)
+  res.SD=format(round(res.SD,(deci+1)),nsmall=(deci+1), decimal.mark = option$d.p)
+  res.C=format(round(res.C,deci),nsmall=deci, decimal.mark = option$d.p)
+  res.Q1=format(round(res.Q1,deci),nsmall=deci, decimal.mark = option$d.p)
+  res.Q3=format(round(res.Q3,deci),nsmall=deci, decimal.mark = option$d.p)
+  res.Var=format(round(res.Var,(deci+1)),nsmall=(deci+1), decimal.mark = option$d.p)
+  res.Skew=format(round(res.Skew,2),nsmall=2, decimal.mark = option$d.p)
+  res.SE_skew=format(round(res.SE_skew,2),nsmall=2, decimal.mark = option$d.p)
+  res.Kurt=format(round(res.Kurt,2),nsmall=2, decimal.mark = option$d.p)
+  res.SE_kurt=format(round(res.SE_kurt,2),nsmall=2, decimal.mark = option$d.p)
+  res.KS=format(round(res.KS,2),nsmall=2, decimal.mark = option$d.p)
+
+  #special case for p values
+  res.KSp=p.val.transf(res.KSp, option)
+
+  res.SW=format(round(res.SW,2),nsmall=2, decimal.mark = option$d.p)
+
+  res.SWp=p.val.transf(res.SWp, option)
 
 
 
@@ -148,9 +159,27 @@ des.flex<-function(data, vars, param_set="standard", by=FALSE, deci=1, lang="hr"
     res=res %>% dplyr::select(append("Variable", param_set))
   }
 
-  if (lang=="hr") {names(res)[1]="Varijabla"} else {names(res)[1]="Variable"}
+  #define decimal mark and leading zero
+  if (option$lead.zero==FALSE){
+    for (i in 2:ncol(res)){
+      for (j in 1:nrow(res)){
+        if (nchar(res[j,i])>2 & substring(res[j,i],1,2)=="0.") {res[j,i]<-paste(".",substring(res[j,i],3),sep="")}
+      }
+    }
+  }
+  if (option$d.p==",") {
+    res[-1] <- lapply(res[-1], gsub, pattern = ".", replacement = ",", fixed = TRUE)
+  }
 
-  return(des.to.flex(res))
+  #set title
+  if (title=="") {
+    if (length(vars)>1) {title=paste(vars[1], " - ", vars[length(vars)], sep="")
+    } else {title=res.names[1]}
+  }
+
+  if (option$lang=="hr") {names(res)[1]="Varijabla"} else {names(res)[1]="Variable"}
+  result<- list(type="deskr",title=title, table=des.to.flex(res), tab.df=res)
+  return(result)
 
 }
 
@@ -302,4 +331,38 @@ des.to.flex=function(res){
     flextable::align(align="center", part="body") %>%
     flextable::align(j=1,align="left", part="body")
   res
+}
+
+
+p.val.transf<-function(vari, option) {
+  if (option$lead.zero==TRUE) {lead.zero.char="0"} else {lead.zero.char=""}#lead.zero.char
+
+  if (option$p.type=="exact") {
+    vari=format(round(vari,3),nsmall=3, decimal.mark = option$d.p)
+  } else if (option$p.type=="<>") {
+    for (i in 1:length(vari)){
+      if (vari[i]>=0.05) {
+        vari[i]<-paste(">", lead.zero.char, option$d.p, "05", sep="")
+      } else if (vari[i]<0.001) {
+        vari[i]<-paste("<", lead.zero.char, option$d.p, "001", sep="")
+      } else if (vari[i]<0.01) {
+        vari[i]<-paste("<", lead.zero.char, option$d.p, "01", sep="")
+      } else if (vari[i]<0.05) {
+        vari[i]<-paste("<", lead.zero.char, option$d.p, "05", sep="")
+      }
+    }
+  } else if (option$p.type=="star") {
+    for (i in 1:length(vari)){
+      if (vari[i]>=0.05) {
+        vari[i]<-"-"
+      } else if (vari[i]<0.001) {
+        vari[i]<-"***"
+      } else if (vari[i]<0.01) {
+        vari[i]<-"**"
+      } else if (vari[i]<0.05) {
+        vari[i]<-"*"
+      }
+    }
+  }
+  return(vari)
 }
