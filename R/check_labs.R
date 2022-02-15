@@ -4,13 +4,12 @@
 #' @param vari Variable to be checked
 #'
 #' @return list with four elements:
-#' \itemize {
+#' \itemize{
 #'     \item var_lab - variable label (NA if not defined)
 #'     \item val_lab - data frame with values and value labels, NA if not defined
 #'     \item val_lab_ok - logical. FALSE if there are more values than value labels, otherwise TRUE. NA if value labels are not defined.
 #' }
 #' @export
-
 check.labs <- function(vari) {
   res <- list(var_lab = NA, has_val_lab = NA, val_lab = NA, val_lab_ok = NA)
 
@@ -57,11 +56,11 @@ check.labs <- function(vari) {
 #'
 #' @return variable name or variable label if existing as string
 #' @export
-get.var.name=function(data, vari){
-  if (is.na(check.labs(data[[vari]])$var_lab)==TRUE) {
-    var.name=vari
+get.var.name <- function(data, vari) {
+  if (is.na(check.labs(data[[vari]])$var_lab) == TRUE) {
+    var.name <- vari
   } else {
-    var.name=check.labs(data[[vari]])$var_lab
+    var.name <- check.labs(data[[vari]])$var_lab
   }
   return(var.name)
 }

@@ -8,19 +8,19 @@
 #' @param param should parametrics (M and SD) be included (default=TRUE)
 #' @param m.deci number of decimal points for parametrics (default=1)
 #' @param p.deci number of decimal points for percentages (default=1)
-#' @param lang language (default="hr")
+#' @param title Table title (optional)
+#' @param option inherits from r.flex.opts
 #' @return list with four elements
-#' \itemize {
+#' \itemize{
 #'     \item type - table type - used for inserting in word document (x-is there a section, desc - are there descriptives)
 #'     \item title - used for table title. Can be set manually or automatically
 #'     \item table - flextable with results
 #'     \item tab.df - results as data.frame
 #' }
 #' @export
-#'
-
 comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, m.deci = 1, p.deci = 1, title = "", option = r.flex.opts) {
   # get variable names - important only for title
+  vars <- NULL
   vars <- attr(stats::terms(form), which = "variables")
   vars <- as.character(vars[3:length(vars)])
   if (title == "") {
@@ -34,19 +34,19 @@ comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, m.deci
       title <- paste(vars[1], " - ", vars[length(vars)], sep = "")
     }
   }
-  if (check.labs(data[[vars[1]]])$val_lab_ok==FALSE) {
-    tcltk::tk_messageBox(type="ok", message=paste0("There are more unique values in variable -", vars[1], "- then defined value labels"))
+  if (check.labs(data[[vars[1]]])$val_lab_ok == FALSE) {
+    tcltk::tk_messageBox(type = "ok", message = paste0("There are more unique values in variable -", vars[1], "- then defined value labels"))
     stop(paste0("There are more unique values in variable -", vars[1], "- then defined value labels"))
   }
 
   # define data frame for section variable
   if (is.na(by) == FALSE) {
     if (sum(is.na(check.labs(data[[by]])$val_lab)) > 0) {
-      tcltk::tk_messageBox(type="ok", message="Please provide labels for the section variable (by-argument)")
+      tcltk::tk_messageBox(type = "ok", message = "Please provide labels for the section variable (by-argument)")
       stop("Please provide labels for the section variable (by-argument)")
     }
     if (is.numeric(data[[by]]) == FALSE) {
-      tcltk::tk_messageBox(type="ok", message="Sections only work for numeric variables for now...")
+      tcltk::tk_messageBox(type = "ok", message = "Sections only work for numeric variables for now...")
       stop("Sections only work for numeric variables for now...")
     }
 
@@ -80,8 +80,8 @@ comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, m.deci
       res <- rbind(res, res_list[[counter_by]])
     }
     res <- res[order(res$no_var, res$no_gr), ]
-    res <- res %>% dplyr::select(Name, Group, everything())
-    res <- dplyr::select(res, -c(no_var, no_gr))
+    res <- res %>% dplyr::select(.data$Name, .data$Group, tidyselect::everything())
+    res <- dplyr::select(res, -c(.data$no_var, .data$no_gr))
   }
 
   # set title
@@ -175,24 +175,26 @@ comperimeter <- function(data, form, by = NA, by_total = TRUE, param = TRUE, m.d
   names(r.fre) <- v.labs$labs
 
 
-  #start with other variables
+  # start with other variables
   if (length(v.names) > 1) {
     # provjeri jesu li labeli isti
     res <- 1
     for (i in 2:length(v.names)) {
-      #check for errors in value labels
-      if (check.labs(data[[v.names[i]]])$val_lab_ok==FALSE) {
-        tcltk::tk_messageBox(type="ok", message=paste0("There are more unique values in variable -", vars[1], "- then defined value labels"))
+      # check for errors in value labels
+      if (check.labs(data[[v.names[i]]])$val_lab_ok == FALSE) {
+        tcltk::tk_messageBox(type = "ok", message = paste0("There are more unique values in variable -", v.names[1], "- then defined value labels"))
         stop(paste0("There are more unique values in variable -", v.names[i], "- then defined value labels"))
       }
 
 
       test.labs <- data.frame(labs = names(attributes(data[[v.names[i]]])$labels), vals = unname(attributes(data[[v.names[i]]])$labels))
-      tryCatch(if (all(v.labs == test.labs)==TRUE) {
+      tryCatch(if (all(v.labs == test.labs) == TRUE) {
         res <- 1
       } else {
         res <- 0
-      }, error=function(e) {stop("Something is wrong, probably with labels of variables in comperimeter")})
+      }, error = function(e) {
+        stop("Something is wrong, probably with labels of variables in comperimeter")
+      })
     }
     if (res == 0) {
       warning("Variables in comperimeter tables should have same values and value labels")
@@ -232,15 +234,15 @@ comperimeter <- function(data, form, by = NA, by_total = TRUE, param = TRUE, m.d
   if (param == TRUE) {
     r.desc$M <- format(round(r.desc$M, m.deci), nsmall = m.deci, decimal.mark = option$d.p)
     r.desc$SD <- format(round(r.desc$SD, m.deci + 1), nsmall = m.deci + 1, decimal.mark = option$d.p)
-    r.desc=r.desc%>% mutate_all(trimws)
+    r.desc <- r.desc %>% dplyr::mutate_all(trimws)
     r.desc[r.desc == "NA"] <- "-"
     r.fre <- format(round(r.fre, p.deci), nsmall = p.deci, decimal.mark = option$d.p)
-    r.fre=r.fre%>% mutate_all(trimws) #necessary because format puts spaces around NA's
+    r.fre <- r.fre %>% dplyr::mutate_all(trimws) # necessary because format puts spaces around NA's
     r.fre[r.fre == "NA"] <- "-"
     res.df <- cbind(r.names, r.desc, r.fre)
   } else {
     r.fre <- format(round(r.fre, p.deci), nsmall = p.deci, decimal.mark = option$d.p)
-    r.fre=r.fre%>% mutate_all(trimws)
+    r.fre <- r.fre %>% dplyr::mutate_all(trimws)
     res.df <- cbind(r.names, r.fre)
     r.fre[r.fre == "NA"] <- "-"
   }
@@ -339,8 +341,3 @@ comp.to.flex.by <- function(df, param, by_row, by_total) {
 
   return(ff)
 }
-
-
-
-
-

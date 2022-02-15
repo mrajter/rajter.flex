@@ -31,11 +31,13 @@ comp.flex(
 
 \item{p.deci}{number of decimal points for percentages (default=1)}
 
-\item{lang}{language (default="hr")}
+\item{title}{Table title (optional)}
+
+\item{option}{inherits from r.flex.opts}
 }
 \value{
 list with four elements
-\itemize {
+\itemize{
 \item type - table type - used for inserting in word document (x-is there a section, desc - are there descriptives)
 \item title - used for table title. Can be set manually or automatically
 \item table - flextable with results

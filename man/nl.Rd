@@ -7,7 +7,7 @@
 nl()
 }
 \value{
-
+add a new line
 }
 \description{
 Add new line from within r code chunk

@@ -28,7 +28,7 @@ freq.flex(
 }
 \value{
 list with four elements
-\itemize {
+\itemize{
 \item type - table type - used for inserting in word document (x-is there a section, desc - are there descriptives)
 \item title - used for table title. Can be set manually or automatically
 \item table - flextable with results
@@ -39,6 +39,7 @@ list with four elements
 Frequencies table
 }
 \examples{
+set.r.flex.opts()
 data(mtcars)
-freq.flex(mtcars, 1~gear+cyl)
+freq.flex(mtcars, 1 ~ gear + cyl)
 }

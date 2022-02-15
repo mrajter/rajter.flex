@@ -17,16 +17,14 @@
 #' @param deci number of decimals for M, everything else is done automatically (default=1)
 #' @param option options variable. To change, modify r.flex.opts variable created by im_on_fire()
 #' @param title table title. If not set it will be determined automatically
-#'
 #' @return list with four elements
-#' \itemize {
-#'     \item type - table type - used for inserting in word document (desc - no section or desc_x - with section)
-#'     \item title - used for table title. Can be set manually or automatically
-#'     \item table - flextable with results
-#'     \item tab.df - results as data.frame
+#' \itemize{
+#'   \item type - table type - used for inserting in word document (desc - no section or desc_x - with section)
+#'   \item title - used for table title. Can be set manually or automatically
+#'   \item table - flextable with results
+#'   \item tab.df - results as data.frame
 #' }
 #' @export
-#'
 des.flex <- function(data, vars = NA, param_set = "standard", by = NA, by_total = TRUE, deci = 1, option = r.flex.opts, title = "") {
   if (missing(vars)) {
     vars <- c(unname(labelled::var_label(data)))
@@ -81,8 +79,8 @@ des.flex <- function(data, vars = NA, param_set = "standard", by = NA, by_total 
       res <- rbind(res, res_list[[counter_by]])
     }
     res <- res[order(res$no_var, res$no_gr), ]
-    res <- res %>% dplyr::select(Variable, Group, everything())
-    res <- dplyr::select(res, -c(no_var, no_gr))
+    res <- res %>% dplyr::select(.data$Variable, .data$Group, tidyselect::everything())
+    res <- dplyr::select(res, -c(.data$no_var, .data$no_gr))
   }
 
   # set title
@@ -312,7 +310,6 @@ r.skewness <- function(target_variable) {
 #' @param target_variable numeric variable
 #' @return standard error for variable skewness
 #' @export
-
 r.skewness.se <- function(target_variable) {
   n <- length(stats::na.omit(target_variable))
   se.skew <- sqrt((6 * n * (n - 1)) / ((n - 2) * (n + 1) * (n + 3)))
@@ -330,7 +327,6 @@ r.skewness.se <- function(target_variable) {
 #' @param target_variable numeric variable
 #' @return excess kurtosis
 #' @export
-
 r.kurtosis <- function(target_variable) {
   n <- length(stats::na.omit(target_variable))
   a <- target_variable - mean(target_variable, na.rm = TRUE)
@@ -358,7 +354,6 @@ r.kurtosis <- function(target_variable) {
 #' @param target_variable numeric variable
 #' @return SE for excess kurtosis
 #' @export
-
 r.kurtosis.se <- function(target_variable) {
   n <- length(stats::na.omit(target_variable))
   up_div <- 4 * (n^2 - 1) * r.skewness.se(target_variable)^2
@@ -378,7 +373,6 @@ r.kurtosis.se <- function(target_variable) {
 #' @param target_variable numeric variable
 #' @return list with statistic and p value
 #' @export
-
 r.ks <- function(target_variable) {
   res <- nortest::lillie.test(target_variable)
   ks <- list(unname(res$statistic), unname(res$p.value))
@@ -397,7 +391,6 @@ r.ks <- function(target_variable) {
 #' @param target_variable numeric variable
 #' @return list with statistic and p value
 #' @export
-
 r.sw <- function(target_variable) {
   if (length(stats::na.omit(target_variable)) > 5000) {
     a <- sample(target_variable, 5000)
@@ -461,17 +454,6 @@ p.val.transf <- function(vari, option) {
   return(vari)
 }
 
-
-
-
-# define group names
-
-# define workflow for totals and sections --> this will be for all procedures
-
-
-
-
-# flextable preparation for table with section variable
 
 
 

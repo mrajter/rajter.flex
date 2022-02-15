@@ -1,10 +1,10 @@
 
 #' Add new line from within r code chunk
 #'
-#' @return
+#' @return add a new line
 #' @export
 #'
 nl=function(){
-  cat("  \n") 
+  cat("  \n")
 }
 

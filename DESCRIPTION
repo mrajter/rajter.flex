@@ -25,4 +25,7 @@ Imports:
     dplyr,
     nortest,
     labelled,
-    Hmisc
+    Hmisc,
+    sjmisc,
+    tidyselect,
+    rlang

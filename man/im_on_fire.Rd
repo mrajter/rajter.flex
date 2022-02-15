@@ -12,14 +12,14 @@ environment setup and variables:
 \item working directory
 \item directories in working directory: Data, Pictures, Templates, Outputs
 \item downloaded file template.docx into Templates directory
-\item global variable \strong{doc} based on template.docx to be used with officer
-\item global variable \strong{r.flex.opts} as named list which is used in functions for options:
+\item global variable in r.flex.opts environment \strong{doc} based on template.docx to be used with officer
+\item \strong{r.flex.opts} encironment which is used in functions for options:
 \itemize{
 \item lang - language - defaults to "hr", can be changed to "en"
 \item d.p - decimal point type - defaults to ",", can be changed to "."
 \item lead.zero (boolean) - will the leading zero be shown in numbers. e.g. 0.05 or .05. Defaults to TRUE
 \item p.type - how do you show p values. Options are
-\itemize {
+\itemize{
 \item "<>" - default - they will be shown as compared to critical points (<0.05, <0.01, <0.001)
 \item "exact" - shown as exact values
 \item "star" - shown as stars as compared to critical points (<0.05, 0.01, 0.001)

@@ -7,7 +7,7 @@
 set.r.flex.opts()
 }
 \value{
-
+r.flex.opts environment used in various functions
 }
 \description{
 Used as a direct way to set the options variable used in other functions. The preferred way is by using im_on_fire() function.

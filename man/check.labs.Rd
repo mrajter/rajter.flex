@@ -11,7 +11,7 @@ check.labs(vari)
 }
 \value{
 list with four elements:
-\itemize {
+\itemize{
 \item var_lab - variable label (NA if not defined)
 \item val_lab - data frame with values and value labels, NA if not defined
 \item val_lab_ok - logical. FALSE if there are more values than value labels, otherwise TRUE. NA if value labels are not defined.
