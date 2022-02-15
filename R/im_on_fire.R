@@ -14,7 +14,7 @@
 #'    \item directories in working directory: Data, Pictures, Templates, Outputs
 #'    \item downloaded file template.docx into Templates directory
 #'    \item global variable in r.flex.opts environment \strong{doc} based on template.docx to be used with officer
-#'    \item \strong{r.flex.opts} encironment which is used in functions for options:
+#'    \item \strong{r.flex.opts} environment which is used in functions for options:
 #'    \itemize{
 #'        \item lang - language - defaults to "hr", can be changed to "en"
 #'        \item d.p - decimal point type - defaults to ",", can be changed to "."
