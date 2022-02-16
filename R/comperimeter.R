@@ -109,7 +109,7 @@ comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, vals_t
 
   #define column names if vals_to_labs
   if (vals_to_labs==TRUE) {
-    names(res)[ncol(res)-nrow(check.labs(data[[vars[1]]])$val_lab):ncol(res)]=check.labs(data[[vars[1]]])$val_lab$vals
+    names(res)[ncol(res)-nrow(check.labs(data[[vars[1]]])$val_lab):ncol(res)]=check.labs(data[[vars[1]]])$val_lab$value
   }
 
   if (is.na(by) == FALSE) {
