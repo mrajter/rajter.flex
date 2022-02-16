@@ -42,6 +42,7 @@ list with four elements
 \item title - used for table title. Can be set manually or automatically
 \item table - flextable with results
 \item tab.df - results as data.frame
+\item orientation - suggested page orientation (P/L)
 }
 }
 \description{

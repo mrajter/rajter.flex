@@ -118,7 +118,7 @@ comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, m.deci
   }
 
 
-  if (sum(b$body$colwidths)*2.54<19.8) {
+  if (sum(table$body$colwidths)*2.54<19.8) {
     orientation <- "P"
   } else {
     orientation <- "L"
@@ -296,15 +296,15 @@ comp.to.flex <- function(df, param) {
 
   #widths, font and padding
   if (param==TRUE) {
-    ff <- ff %>% width(j=2:4, width=1.4, unit="cm")
+    ff <- ff %>% flextable::width(j=2:4, width=1.4, unit="cm")
     col_min=5
   } else {
     col_min=2
   }
-  ff <- ff %>% width(j=1, width=5, unit="cm") %>%
-    width(j=col_min:ncol(df), width=1.6, unit="cm") %>%
-    font(fontname="Calibri", part="all") %>%
-    padding(padding.top = 0, padding.bottom = 0)
+  ff <- ff %>% flextable::width(j=1, width=5, unit="cm") %>%
+    flextable::width(j=col_min:ncol(df), width=1.6, unit="cm") %>%
+    flextable::font(fontname="Calibri", part="all") %>%
+    flextable::padding(padding.top = 0, padding.bottom = 0)
 
   return(ff)
 }
@@ -352,16 +352,16 @@ comp.to.flex.by <- function(df, param, by_row, by_total) {
 
   #widths, font and padding
   if (param==TRUE) {
-    ff <- ff %>% width(j=3:5, width=1.4, unit="cm")
+    ff <- ff %>% flextable::width(j=3:5, width=1.4, unit="cm")
     col_min=6
   } else {
     col_min=3
   }
-  ff <- ff %>% width(j=1, width=5, unit="cm") %>%
-    width(j=2, width=3, unit="cm") %>%
-    width(j=col_min:ncol(df), width=1.6, unit="cm") %>%
-    font(fontname="Calibri", part="all") %>%
-    padding(padding.top = 0, padding.bottom = 0)
+  ff <- ff %>% flextable::width(j=1, width=5, unit="cm") %>%
+    flextable::width(j=2, width=3, unit="cm") %>%
+    flextable::width(j=col_min:ncol(df), width=1.6, unit="cm") %>%
+    flextable::font(fontname="Calibri", part="all") %>%
+    flextable::padding(padding.top = 0, padding.bottom = 0)
 
   return(ff)
 }
