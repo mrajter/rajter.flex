@@ -16,6 +16,7 @@
 #'     \item title - used for table title. Can be set manually or automatically
 #'     \item table - flextable with results
 #'     \item tab.df - results as data.frame
+#'     \item orientation - suggested page orientation (P/L)
 #' }
 #' @export
 comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, m.deci = 1, p.deci = 1, title = "", option = r.flex.opts) {
@@ -116,12 +117,14 @@ comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, m.deci
     type <- paste0(type, "_nodesc")
   }
 
-  result <- list(type = type, title = title, table = table, tab.df = res)
 
+  if (sum(b$body$colwidths)*2.54<19.8) {
+    orientation <- "P"
+  } else {
+    orientation <- "L"
+  }
 
-
-
-
+  result <- list(type = type, title = title, table = table, tab.df = res, orientation=orientation)
 
   return(result)
 }
@@ -278,7 +281,7 @@ comp.to.flex <- function(df, param) {
   }
 
   # tablica
-  df <- df %>%
+  ff <- df %>%
     flextable::flextable() %>%
     flextable::hline_top(border = officer::fp_border(color = "black", width = 1), part = "header") %>%
     flextable::hline_bottom(border = officer::fp_border(color = "black", width = 1), part = "header") %>%
@@ -290,12 +293,20 @@ comp.to.flex <- function(df, param) {
     flextable::align(align = "center", part = "header") %>%
     flextable::align(align = "center", part = "body") %>%
     flextable::align(j = 1, align = "left", part = "body")
-  pretty_dims <- flextable::dim_pretty(df)$widths
-  for (i in 1:length(pretty_dims)) {
-    df <- flextable::width(df, j = i, pretty_dims[i])
-  }
 
-  return(df)
+  #widths, font and padding
+  if (param==TRUE) {
+    ff <- ff %>% width(j=2:4, width=1.4, unit="cm")
+    col_min=5
+  } else {
+    col_min=2
+  }
+  ff <- ff %>% width(j=1, width=5, unit="cm") %>%
+    width(j=col_min:ncol(df), width=1.6, unit="cm") %>%
+    font(fontname="Calibri", part="all") %>%
+    padding(padding.top = 0, padding.bottom = 0)
+
+  return(ff)
 }
 
 
@@ -338,6 +349,19 @@ comp.to.flex.by <- function(df, param, by_row, by_total) {
   ff <- ff %>% flextable::merge_v(j = 1, part = "body")
   ff <- ff %>% flextable::align(i = NULL, j = 2, align = "left", part = "body")
   ff <- ff %>% flextable::fix_border_issues()
+
+  #widths, font and padding
+  if (param==TRUE) {
+    ff <- ff %>% width(j=3:5, width=1.4, unit="cm")
+    col_min=6
+  } else {
+    col_min=3
+  }
+  ff <- ff %>% width(j=1, width=5, unit="cm") %>%
+    width(j=2, width=3, unit="cm") %>%
+    width(j=col_min:ncol(df), width=1.6, unit="cm") %>%
+    font(fontname="Calibri", part="all") %>%
+    padding(padding.top = 0, padding.bottom = 0)
 
   return(ff)
 }
