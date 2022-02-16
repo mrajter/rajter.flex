@@ -6,20 +6,22 @@
 #' @param by section variable specified with quotes
 #' @param by_total should totals be included when using section variable (default=TRUE)
 #' @param param should parametrics (M and SD) be included (default=TRUE)
+#' @param vals_to_labs if TRUE values will be put in column headings and value labels in result list (default=TRUE)
 #' @param m.deci number of decimal points for parametrics (default=1)
 #' @param p.deci number of decimal points for percentages (default=1)
 #' @param title Table title (optional)
 #' @param option inherits from r.flex.opts
-#' @return list with four elements
+#' @return list with six elements
 #' \itemize{
 #'     \item type - table type - used for inserting in word document (x-is there a section, desc - are there descriptives)
 #'     \item title - used for table title. Can be set manually or automatically
 #'     \item table - flextable with results
 #'     \item tab.df - results as data.frame
 #'     \item orientation - suggested page orientation (P/L)
+#'     \item legend - vector of value labels for column headings
 #' }
 #' @export
-comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, m.deci = 1, p.deci = 1, title = "", option = r.flex.opts) {
+comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, vals_to_labs=TRUE, m.deci = 1, p.deci = 1, title = "", option = r.flex.opts) {
   # get variable names - important only for title
   vars <- NULL
   vars <- attr(stats::terms(form), which = "variables")
@@ -103,6 +105,12 @@ comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, m.deci
       names(res)[2] <- sjlabelled::get_label(data[[by]])
     }
   }
+  #table
+
+  #define column names if vals_to_labs
+  if (vals_to_labs==TRUE) {
+    names(res)[ncol(res)-nrow(check.labs(data[[vars[1]]])$val_lab):ncol(res)]=check.labs(data[[vars[1]]])$val_lab$vals
+  }
 
   if (is.na(by) == FALSE) {
     type <- "comp_x"
@@ -124,7 +132,9 @@ comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, m.deci
     orientation <- "L"
   }
 
-  result <- list(type = type, title = title, table = table, tab.df = res, orientation=orientation)
+  leged <- check.labs(data[[vars[1]]])$val_lab
+  legend$legend <- paste0(legend$value, " - ", legend$label)
+  result <- list(type = type, title = title, table = table, tab.df = res, orientation=orientation, legend=legend$legend)
 
   return(result)
 }

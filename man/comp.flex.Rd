@@ -10,6 +10,7 @@ comp.flex(
   by = NA,
   by_total = TRUE,
   param = TRUE,
+  vals_to_labs = TRUE,
   m.deci = 1,
   p.deci = 1,
   title = "",
@@ -27,6 +28,8 @@ comp.flex(
 
 \item{param}{should parametrics (M and SD) be included (default=TRUE)}
 
+\item{vals_to_labs}{if TRUE values will be put in column headings and value labels in result list (default=TRUE)}
+
 \item{m.deci}{number of decimal points for parametrics (default=1)}
 
 \item{p.deci}{number of decimal points for percentages (default=1)}
@@ -36,13 +39,14 @@ comp.flex(
 \item{option}{inherits from r.flex.opts}
 }
 \value{
-list with four elements
+list with six elements
 \itemize{
 \item type - table type - used for inserting in word document (x-is there a section, desc - are there descriptives)
 \item title - used for table title. Can be set manually or automatically
 \item table - flextable with results
 \item tab.df - results as data.frame
 \item orientation - suggested page orientation (P/L)
+\item legend - vector of value labels for column headings
 }
 }
 \description{
