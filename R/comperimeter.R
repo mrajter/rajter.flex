@@ -371,7 +371,7 @@ comp.to.flex.by <- function(df, param, by_row, by_total) {
   }
   ff <- ff %>% flextable::width(j=1, width=5, unit="cm") %>%
     flextable::width(j=2, width=3, unit="cm") %>%
-    flextable::width(j=col_min:ncol(df), width=1.6, unit="cm") %>%
+    flextable::width(j=col_min:ncol(df), width=1.2, unit="cm") %>%
     flextable::font(fontname="Calibri", part="all") %>%
     flextable::padding(padding.top = 0, padding.bottom = 0)
 
