@@ -109,7 +109,9 @@ comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, vals_t
 
   #define column names if vals_to_labs
   if (vals_to_labs==TRUE) {
-    names(res)[ncol(res)-nrow(check.labs(data[[vars[1]]])$val_lab):ncol(res)]=check.labs(data[[vars[1]]])$val_lab$value
+    start_comp <- ncol(res)-nrow(check.labs(data[[vars[1]]])$val_lab)+1 #column where the comperimeter starts
+    end_comp <- ncol(res) #end column
+    names(res)[start_comp:end_comp] <- check.labs(data[[vars[1]]])$val_lab$value
   }
 
   if (is.na(by) == FALSE) {
@@ -132,7 +134,7 @@ comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, vals_t
     orientation <- "L"
   }
 
-  leged <- check.labs(data[[vars[1]]])$val_lab
+  legend <- check.labs(data[[vars[1]]])$val_lab
   legend$legend <- paste0(legend$value, " - ", legend$label)
   result <- list(type = type, title = title, table = table, tab.df = res, orientation=orientation, legend=legend$legend)
 
