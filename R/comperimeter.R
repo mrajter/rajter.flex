@@ -365,7 +365,7 @@ comp.to.flex.by <- function(df, param, by_row, by_total) {
   #widths, font and padding
   if (param==TRUE) {
     ff <- ff %>% flextable::width(j=3:5, width=1.4, unit="cm")
-    col_min=6
+    col_min=6 #minimum columns if parametrics are present
   } else {
     col_min=3
   }
