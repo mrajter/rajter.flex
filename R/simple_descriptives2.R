@@ -45,10 +45,12 @@ des.flex <- function(data, vars = NA, param_set = "standard", by = NA, by_total 
 
   # define data frame for section variable
   if (is.na(by) == FALSE) {
-    if (sjlabelled::is_labelled(data[[by]]) == FALSE) {
+    if (sum(is.na(check.labs(data[[by]])$val_lab)) > 0) {
+      tcltk::tk_messageBox(type = "ok", message = "Please provide labels for the section variable (by-argument)")
       stop("Please provide labels for the section variable (by-argument)")
     }
     if (is.numeric(data[[by]]) == FALSE) {
+      tcltk::tk_messageBox(type = "ok", message = "Sections only work for numeric variables for now...")
       stop("Sections only work for numeric variables for now...")
     }
 

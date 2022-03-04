@@ -90,7 +90,7 @@ comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, vals_t
 
   # set title
 
-  table.by=NA
+  title.by=NA
   if (is.na(by) == FALSE) {
     title.by <- sjlabelled::get_label(data[[by]])
   }
@@ -137,7 +137,7 @@ comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, vals_t
 
   legend <- check.labs(data[[vars[1]]])$val_lab
   legend$legend <- paste0(legend$value, " - ", legend$label)
-  result <- list(type = type, title = title, section = table.by, table = table, tab.df = res, orientation=orientation, legend=legend$legend)
+  result <- list(type = type, title = title, section = title.by, table = table, tab.df = res, orientation=orientation, legend=legend$legend)
 
   return(result)
 }
