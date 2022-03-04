@@ -11,10 +11,11 @@
 #' @param p.deci number of decimal points for percentages (default=1)
 #' @param title Table title (optional)
 #' @param option inherits from r.flex.opts
-#' @return list with six elements
+#' @return list with elements
 #' \itemize{
-#'     \item type - table type - used for inserting in word document (x-is there a section, desc - are there descriptives)
+#'     \item type - table type - used for inserting in word document (, desc - are there descriptives)
 #'     \item title - used for table title. Can be set manually or automatically
+#'     \item section - section variable title
 #'     \item table - flextable with results
 #'     \item tab.df - results as data.frame
 #'     \item orientation - suggested page orientation (P/L)
@@ -89,9 +90,9 @@ comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, vals_t
 
   # set title
 
-
+  table.by=NA
   if (is.na(by) == FALSE) {
-    title <- paste0(title, " x ", sjlabelled::get_label(data[[by]]))
+    title.by <- sjlabelled::get_label(data[[by]])
   }
 
   if (option$lang == "hr") {
@@ -115,7 +116,7 @@ comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, vals_t
   }
 
   if (is.na(by) == FALSE) {
-    type <- "comp_x"
+    type <- "comp"
     table <- comp.to.flex.by(res, param = param, by_row = nrow(by_df), by_total = by_total)
   } else {
     type <- "comp"
@@ -136,7 +137,7 @@ comp.flex <- function(data, form, by = NA, by_total = TRUE, param = TRUE, vals_t
 
   legend <- check.labs(data[[vars[1]]])$val_lab
   legend$legend <- paste0(legend$value, " - ", legend$label)
-  result <- list(type = type, title = title, table = table, tab.df = res, orientation=orientation, legend=legend$legend)
+  result <- list(type = type, title = title, section = table.by, table = table, tab.df = res, orientation=orientation, legend=legend$legend)
 
   return(result)
 }
@@ -373,7 +374,7 @@ comp.to.flex.by <- function(df, param, by_row, by_total) {
     flextable::width(j=2, width=3, unit="cm") %>%
     flextable::width(j=col_min:ncol(df), width=1.2, unit="cm") %>%
     flextable::font(fontname="Calibri", part="all") %>%
-    flextable::padding(padding.top = 0, padding.bottom = 0)
+    flextable::padding(padding.top = 0, padding.bottom = 0, part="all")
 
   return(ff)
 }
