@@ -35,7 +35,7 @@ cor.flex(
 list with two elements:
 \itemize{
 \item $matrix - flextable object
-\item $N - numner of participants (range if na="pairwise")
+\item $N - number of participants (range if na="pairwise")
 }
 }
 \description{

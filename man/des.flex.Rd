@@ -40,12 +40,14 @@ des.flex(
 \item{title}{table title. If not set it will be determined automatically}
 }
 \value{
-list with four elements
+list with elements
 \itemize{
-\item type - table type - used for inserting in word document (desc - no section or desc_x - with section)
+\item type - table type - used for inserting in word document
 \item title - used for table title. Can be set manually or automatically
+\item section - section variable title
 \item table - flextable with results
 \item tab.df - results as data.frame
+\item orientation - suggested page orientation (P/L)
 }
 }
 \description{

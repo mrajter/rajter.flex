@@ -14,6 +14,7 @@
 #'     \item title - used for table title. Can be set manually or automatically
 #'     \item table - flextable with results
 #'     \item tab.df - results as data.frame
+#'     \item orientation - suggested page orientation (P/L)
 #' }
 #' @export
 #' @examples
@@ -92,7 +93,7 @@ freq.flex <- function(data, form, deci = 1, has.NA = FALSE, title = "", option =
   }
   table <- freq.to.flex(res, deci, len.t, has.NA, option)
   type <- "freq"
-  result <- list(type = type, title = title, table = table, tab.df = res)
+  result <- list(type = type, title = title, table = table, tab.df = res, orientation="P")
 
   return(result)
 }
@@ -129,7 +130,10 @@ freq.to.flex <- function(t, deci, len.t, has.NA, option) {
     flextable::align(j = 1, align = "left", part = "body") %>%
     flextable::hline_top(border = officer::fp_border(color = "black", width = 1), part = "header") %>%
     flextable::hline_bottom(border = officer::fp_border(color = "black", width = 1), part = "header") %>%
-    flextable::hline_bottom(border = officer::fp_border(color = "black", width = 1), part = "body")
+    flextable::hline_bottom(border = officer::fp_border(color = "black", width = 1), part = "body") %>%
+    flextable::font(fontname="Calibri", part="all") %>%
+    flextable::padding(padding.top = 0, padding.bottom = 0, part="all") %>%
+    flextable::width(j=1, width=5, unit="cm")
 
   # lines within
   i2 <- 0

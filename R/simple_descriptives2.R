@@ -17,12 +17,14 @@
 #' @param deci number of decimals for M, everything else is done automatically (default=1)
 #' @param option options variable. To change, modify r.flex.opts variable created by im_on_fire()
 #' @param title table title. If not set it will be determined automatically
-#' @return list with four elements
+#' @return list with elements
 #' \itemize{
-#'   \item type - table type - used for inserting in word document (desc - no section or desc_x - with section)
+#'   \item type - table type - used for inserting in word document
 #'   \item title - used for table title. Can be set manually or automatically
+#'   \item section - section variable title
 #'   \item table - flextable with results
 #'   \item tab.df - results as data.frame
+#'   \item orientation - suggested page orientation (P/L)
 #' }
 #' @export
 des.flex <- function(data, vars = NA, param_set = "standard", by = NA, by_total = TRUE, deci = 1, option = r.flex.opts, title = "") {
@@ -91,9 +93,9 @@ des.flex <- function(data, vars = NA, param_set = "standard", by = NA, by_total 
       title <- res.names[1]
     }
   }
-
+  title.by=NA
   if (is.na(by) == FALSE) {
-    title <- paste0(title, " x ", sjlabelled::get_label(data[[by]]))
+    title.by <- sjlabelled::get_label(data[[by]])
   }
 
   if (option$lang == "hr") {
@@ -106,13 +108,19 @@ des.flex <- function(data, vars = NA, param_set = "standard", by = NA, by_total 
   }
 
   if (is.na(by) == FALSE) {
-    type <- "desc_x"
+    type <- "desc"
     table <- des.to.flex.by(res, nrow(by_df), by_total)
   } else {
     type <- "desc"
     table <- des.to.flex(res)
   }
-  result <- list(type = type, title = title, table = table, tab.df = res)
+  #calculate orientation
+  if (sum(table$body$colwidths)*2.54<19.8) {
+    orientation <- "P"
+  } else {
+    orientation <- "L"
+  }
+  result <- list(type = type, title = title, section=title.by, table = table, tab.df = res, orientation=orientation)
   return(result)
 }
 
@@ -412,7 +420,11 @@ des.to.flex <- function(res) {
     flextable::hline_bottom(border = officer::fp_border(color = "black", width = 1), part = "body") %>%
     flextable::align(align = "center", part = "header") %>%
     flextable::align(align = "center", part = "body") %>%
-    flextable::align(j = 1, align = "left", part = "body")
+    flextable::align(j = 1, align = "left", part = "body") %>%
+    flextable::font(fontname="Calibri", part="all") %>%
+    flextable::padding(padding.top = 0, padding.bottom = 0, part="all") %>%
+    flextable::width(j=1, width=5, unit="cm") %>%
+    flextable::width(j=2:ncol(res), width=1.4, unit="cm")
   res
 }
 
@@ -474,7 +486,12 @@ des.to.flex.by <- function(res, by_row, by_total) {
   ff <- ff %>% flextable::hline_bottom(part = "body")
 
   ff <- ff %>% flextable::align(i = 1, j = NULL, align = "center", part = "header")
-  ff <- ff %>% flextable::align(i = NULL, j = 3:ncol(res), align = "center", part = "body")
+  ff <- ff %>% flextable::align(i = NULL, j = 3:ncol(res), align = "center", part = "body") %>%
+    flextable::font(fontname="Calibri", part="all") %>%
+    flextable::padding(padding.top = 0, padding.bottom = 0, part="all") %>%
+    flextable::width(j=1, width=5, unit="cm") %>%
+    flextable::width(j=2, width=3, unit="cm") %>%
+    flextable::width(j=3:ncol(res), width=1.4, unit="cm")
 
   ff <- ff %>% flextable::fix_border_issues(part = "all")
   return(ff)
