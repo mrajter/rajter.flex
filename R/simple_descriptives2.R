@@ -65,6 +65,7 @@ des.flex <- function(data, vars = NA, param_set = "standard", by = NA, by_total 
     res_list <- list()
     for (counter_by in 1:nrow(by_df)) {
       res_list[[counter_by]] <- descriptives(data[data[[by]] == by_df[counter_by, 1], ], vars, param_set, deci = 1, option = r.flex.opts, res.names = res.names)
+      res_list[[counter_by]]$Variable <- res.names #subsetting looses variable labels. This is the correction
     }
     if (by_total == TRUE) {
       res_list[[nrow(by_df) + 1]] <- descriptives(data, vars, param_set, deci = 1, option = r.flex.opts)
