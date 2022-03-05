@@ -18,7 +18,7 @@ des.flex(
 \arguments{
 \item{data}{data.frame with variables}
 
-\item{vars}{variables as list as strings}
+\item{vars}{variables as formula. e.g. 1 ~ var1 + var2}
 
 \item{param_set}{list of parameters with order in the table (as strings):
 \itemize{

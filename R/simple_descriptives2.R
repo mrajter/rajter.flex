@@ -3,7 +3,7 @@
 #' Simple descriptive statistics
 #'
 #' @param data data.frame with variables
-#' @param vars variables as list as strings
+#' @param vars variables as formula. e.g. 1 ~ var1 + var2
 #' @param param_set list of parameters with order in the table (as strings):
 #' \itemize{
 #'   \item default - "standard"
@@ -28,8 +28,10 @@
 #' }
 #' @export
 des.flex <- function(data, vars = NA, param_set = "standard", by = NA, by_total = TRUE, deci = 1, option = r.flex.opts, title = "") {
-  if (missing(vars)) {
-    vars <- c(unname(labelled::var_label(data)))
+  if (is.na(vars)) {
+    vars <- names(data)
+  } else {
+    vars <- all.vars(vars)
   }
 
   res.names <- c()
@@ -215,13 +217,24 @@ descriptives <- function(data, vars, param_set = "standard", by = NA, deci = 1, 
 
 
   ## decimals
-  # res.min=c()
-  # res.max=c()
+
+  #test if int is equal to res --> for setting rounding
+  #Neccessary if min and max are decimal numbers
+
+  if (sum(res.min==as.integer(res.min))!=length(res.min) |
+      sum(res.max==as.integer(res.max))!=length(res.max)) {
+    deci.mm <- deci
+  } else {
+    deci.mm <- 0
+  }
+
+  # res.min=format(round(res.min, deci.mm), nsmall = deci.mm, decimal.mark = option$d.p)
+  # res.max=format(round(res.max, deci.mm), nsmall = deci.mm, decimal.mark = option$d.p)
   res.M <- format(round(res.M, deci), nsmall = deci, decimal.mark = option$d.p)
   res.SD <- format(round(res.SD, (deci + 1)), nsmall = (deci + 1), decimal.mark = option$d.p)
-  res.C <- format(round(res.C, deci), nsmall = deci, decimal.mark = option$d.p)
-  res.Q1 <- format(round(res.Q1, deci), nsmall = deci, decimal.mark = option$d.p)
-  res.Q3 <- format(round(res.Q3, deci), nsmall = deci, decimal.mark = option$d.p)
+  res.C <- format(round(res.C, deci.q), nsmall = deci.q, decimal.mark = option$d.p)
+  res.Q1 <- format(round(res.Q1, deci.q), nsmall = deci.q, decimal.mark = option$d.p)
+  res.Q3 <- format(round(res.Q3, deci.q), nsmall = deci.q, decimal.mark = option$d.p)
   res.Var <- format(round(res.Var, (deci + 1)), nsmall = (deci + 1), decimal.mark = option$d.p)
   res.Skew <- format(round(res.Skew, 2), nsmall = 2, decimal.mark = option$d.p)
   res.SE_skew <- format(round(res.SE_skew, 2), nsmall = 2, decimal.mark = option$d.p)
