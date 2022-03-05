@@ -27,8 +27,8 @@
 #'   \item orientation - suggested page orientation (P/L)
 #' }
 #' @export
-des.flex <- function(data, vars = NA, param_set = "standard", by = NA, by_total = TRUE, deci = 1, option = r.flex.opts, title = "") {
-  if (is.na(vars)) {
+des.flex <- function(data, vars, param_set = "standard", by = NA, by_total = TRUE, deci = 1, option = r.flex.opts, title = "") {
+  if (missing(vars)) {
     vars <- names(data)
   } else {
     vars <- all.vars(vars)
