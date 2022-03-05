@@ -6,7 +6,7 @@
 \usage{
 des.flex(
   data,
-  vars = NA,
+  vars,
   param_set = "standard",
   by = NA,
   by_total = TRUE,
