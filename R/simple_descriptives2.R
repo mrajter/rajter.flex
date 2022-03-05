@@ -492,9 +492,11 @@ des.to.flex.by <- function(res, by_row, by_total) {
   ff <- ff %>% flextable::align(i = NULL, j = 3:ncol(res), align = "center", part = "body") %>%
     flextable::font(fontname="Calibri", part="all") %>%
     flextable::padding(padding.top = 0, padding.bottom = 0, part="all") %>%
+    flextable::width(width = flextable::dim_pretty(.))
+  ff <- ff %>%
     flextable::width(j=1, width=5, unit="cm") %>%
-    flextable::width(j=2, width=3, unit="cm") %>%
-    flextable::width(j=3:ncol(res), width=1.4, unit="cm")
+    flextable::width(j=2, width=3, unit="cm")
+
 
   ff <- ff %>% flextable::fix_border_issues(part = "all")
   return(ff)

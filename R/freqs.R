@@ -133,7 +133,8 @@ freq.to.flex <- function(t, deci, len.t, has.NA, option) {
     flextable::hline_bottom(border = officer::fp_border(color = "black", width = 1), part = "body") %>%
     flextable::font(fontname="Calibri", part="all") %>%
     flextable::padding(padding.top = 0, padding.bottom = 0, part="all") %>%
-    flextable::width(j=1, width=5, unit="cm")
+    flextable::width(j=1, width=5, unit="cm") %>%
+    flextable::width(j=2, width=5, unit="cm")
 
   # lines within
   i2 <- 0
