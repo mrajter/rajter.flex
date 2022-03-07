@@ -228,8 +228,8 @@ descriptives <- function(data, vars, param_set = "standard", by = NA, deci = 1, 
     deci.mm <- 0
   }
 
-  # res.min=format(round(res.min, deci.mm), nsmall = deci.mm, decimal.mark = option$d.p)
-  # res.max=format(round(res.max, deci.mm), nsmall = deci.mm, decimal.mark = option$d.p)
+  res.min=format(round(res.min, deci.mm), nsmall = deci.mm, decimal.mark = option$d.p)
+  es.max=format(round(res.max, deci.mm), nsmall = deci.mm, decimal.mark = option$d.p)
   res.M <- format(round(res.M, deci), nsmall = deci, decimal.mark = option$d.p)
   res.SD <- format(round(res.SD, (deci + 1)), nsmall = (deci + 1), decimal.mark = option$d.p)
   res.C <- format(round(res.C, deci), nsmall = deci, decimal.mark = option$d.p)
