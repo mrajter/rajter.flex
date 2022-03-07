@@ -62,15 +62,15 @@ des.flex <- function(data, vars, param_set = "standard", by = NA, by_total = TRU
 
   # workflow
   if (is.na(by) == TRUE) {
-    res <- descriptives(data, vars, param_set, deci = 1, option = r.flex.opts, res.names = res.names)
+    res <- descriptives(data, vars, param_set, deci = deci, option = r.flex.opts, res.names = res.names)
   } else {
     res_list <- list()
     for (counter_by in 1:nrow(by_df)) {
-      res_list[[counter_by]] <- descriptives(data[data[[by]] == by_df[counter_by, 1], ], vars, param_set, deci = 1, option = r.flex.opts, res.names = res.names)
+      res_list[[counter_by]] <- descriptives(data[data[[by]] == by_df[counter_by, 1], ], vars, param_set, deci = deci, option = r.flex.opts, res.names = res.names)
       res_list[[counter_by]]$Variable <- res.names #subsetting looses variable labels. This is the correction
     }
     if (by_total == TRUE) {
-      res_list[[nrow(by_df) + 1]] <- descriptives(data, vars, param_set, deci = 1, option = r.flex.opts)
+      res_list[[nrow(by_df) + 1]] <- descriptives(data, vars, param_set, deci = deci, option = r.flex.opts)
       by_df <- rbind(by_df, c(nrow(by_df) + 1, "Total"))
     }
     # create data frame with results
@@ -229,7 +229,7 @@ descriptives <- function(data, vars, param_set = "standard", by = NA, deci = 1, 
   }
 
   res.min=format(round(res.min, deci.mm), nsmall = deci.mm, decimal.mark = option$d.p)
-  es.max=format(round(res.max, deci.mm), nsmall = deci.mm, decimal.mark = option$d.p)
+  res.max=format(round(res.max, deci.mm), nsmall = deci.mm, decimal.mark = option$d.p)
   res.M <- format(round(res.M, deci), nsmall = deci, decimal.mark = option$d.p)
   res.SD <- format(round(res.SD, (deci + 1)), nsmall = (deci + 1), decimal.mark = option$d.p)
   res.C <- format(round(res.C, deci), nsmall = deci, decimal.mark = option$d.p)
