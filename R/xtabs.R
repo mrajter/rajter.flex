@@ -156,7 +156,7 @@ xtabs_to_flex <- function(tab, multi, deci, n_cat, option) {
   # formats
 
   tab[2 + multi] <- format(tab[2 + multi], nsmall = 0, big.mark = "")
-  tab[(3 + multi):ncol(tab)] <- format(tab[(3 + multi):ncol(tab)], decimal.mark = option$d.p.)
+  tab[(3 + multi):ncol(tab)] <- format(tab[(3 + multi):ncol(tab)], decimal.mark = option$d.p)
 
   # radi za jednu var pa ćeš dalje
   col.names <- c(names(tab)[1:(2 + multi)], rep("%", ncol(tab) - 2 - multi))
