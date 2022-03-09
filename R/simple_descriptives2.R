@@ -510,7 +510,7 @@ des.to.flex.by <- function(res, by_row, by_total) {
 
 
   flex_wids <- flextable::dim_pretty(ff)$widths
-  ff <- flextable::width(width = flex_wids)
+  ff <- ff %>% flextable::width(width = flex_wids)
   ff <- ff %>%
     flextable::width(j=1, width=5, unit="cm") %>%
     flextable::width(j=2, width=3, unit="cm")
