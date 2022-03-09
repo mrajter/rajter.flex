@@ -28,4 +28,6 @@ Imports:
     Hmisc,
     sjmisc,
     tidyselect,
-    rlang
+    rlang,
+    formula.tools,
+    tidyr
