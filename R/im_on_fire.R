@@ -70,4 +70,42 @@ set.r.flex.opts <- function() {
   r.flex.opts$tab.caption=as.logical(tab.caption)
 
 
+}
+
+
+
+
+# ovo radi za sve brojeve kad se briše leading zero
+pval.apa <- function(num, deci = 3, equal = F, option = r.flex.opts) {
+  if (num > 1 | num < -1) {
+    tcltk::tk_messageBox(type = "ok", message = "This is not a p-value")
+    stop("This is not a p-value")
   }
+
+  if (abs(num) < (10^(-1 * deci))) {
+    res <- paste0("<", option$d.p, paste0(rep("0", deci - 1), collapse = ""), "1")
+  } else {
+    res <- format(round(num, deci), nsmall = deci, decimal.mark = option$d.p)
+
+    if (abs(num)==1) {
+      res <- res
+    } else if (num < 0) {
+      res <- substring(res, 3)
+      res <- paste0("-", res)
+    } else {
+      res <- substring(res, 2)
+    }
+
+    if (equal == T) {
+      res <- paste0("=", res)
+    }
+  }
+  return(res)
+}
+
+#--------------------------
+# formatiranje broja - decimalna točka i broj decimala
+format.n <- function(num, deci, option = r.flex.opts) {
+  res <- format(round(num, deci), nsmall = deci, decimal.mark = option$d.p)
+  return(res)
+}

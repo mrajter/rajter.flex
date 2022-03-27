@@ -30,4 +30,6 @@ Imports:
     tidyselect,
     rlang,
     formula.tools,
-    tidyr
+    tidyr,
+    psych,
+    nFactors
