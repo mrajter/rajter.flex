@@ -331,7 +331,7 @@ pca.preqs <- function(data, form, option = r.flex.opts) {
   res$bart <- bart
   res$kmo <- kmo$MSA
   if (option$lang == "en") {
-    res$text <- paste0("Bartlett's test of sphericity - ", bart$text, "; KMO MSA - ", pval.apa(kmo))
+    res$text <- paste0("Bartlett's test of sphericity - ", bart$text, "; KMO MSA=", pval.apa(kmo))
   } else {
     res$text <- paste0("Bartlettov test sfericiteta - ", bart$text, "; KMO MSA - ", pval.apa(kmo$MSA))
   }
