@@ -1,7 +1,7 @@
 #' Perform PCA
 #'
-#' Function is based on psych::principal function
-#'
+#' Function is based on psych::principal function and in line with Field's Discovering statistics using R. The PCA is performed with listwise deletion and is based on correlation matrix.
+#' Due to mystic differences in algorthms, loadings obtained by oblimin rotation are marginally different from those obtained in SPSS...I still don't know why
 #' @param data data frame
 #' @param form formula with variables on rhs. E.g. 1 ~ var1 + var2 + var3
 #' @param n_factors number of components to extract. There are several methods
@@ -17,19 +17,21 @@
 #' }
 #' @param rotation Rotation to use. Options are: "none", "varimax", "oblimin". Default is "oblimin".
 #' @param title Title of analysis. Will be determined if omitted
-#' @param sing.solution Should forced single component solution also be presented
+#' @param sing.solution Should forced single component solution also be presented (default=T)
 #' @param sorted should the loadings be sorted in table (default=T)
-#' @param supress supress coeficients below threshold (default=0.3)
+#' @param supress suppress coefficients below threshold (default=0.3)
 #' @param option inherited from r.flex.opts
 #'
 #' @return list with elements
 #' \itemize{
-#'     \item type - table type - used for inserting in word document (, desc - are there descriptives)
+#'     \item type - table type - used for inserting in word document
 #'     \item title - used for table title. Can be set manually or automatically
-#'     \item preqs - prerequesites - Bartlett and KMO
+#'     \item preqs - prerequisites - Bartlett and KMO
 #'     \item df - results as data.frame
 #'     \item table - flextable with results
 #'     \item rotation - used rotation
+#'     \item sing.solution - is there a forced single component solution
+#'     \item extraction - how are components extracted (exact number or criteria) - see nfac.flex function for details
 #' }
 #' @export
 pca.flex <- function(data, form, n_factors = "KG", rotation = "oblimin", title="", sing.solution = T, sorted = T, supress = 0.3, option = r.flex.opts) {
@@ -190,6 +192,8 @@ pca.flex <- function(data, form, n_factors = "KG", rotation = "oblimin", title="
   res_temp <- list(df=df, table=df_table)
   res$table <- pca_to_flex(res=res_temp, ncomp=ncomp, nvars=length(vars), rotation=rotation, sing.solution=sing.solution, supress=supress, option=option)
   res$rotation <- rotation
+  res$sing.solution <- sing.solution
+  res$extraction=n_factors
 
   return(res)
 }
@@ -255,13 +259,21 @@ pca_to_flex=function(res, ncomp, nvars, rotation, sing.solution, supress, option
 
   #widths
   ff <- ff %>% flextable::width(j=1, width=5, unit="cm") %>%
-    flextable::width(j=2:ncol(res$df), width=1.2, unit="cm") %>%
+    flextable::width(j=2:ncol(res$df), width=1.4, unit="cm") %>%
     flextable::font(fontname="Calibri", part="all") %>%
     flextable::padding(padding.top = 0, padding.bottom = 0, part="all")
   return(ff)
 }
 
 
+#' Determine how many components to extract in PCA
+#'
+#' This is a helper function for pca.flex function and it can be used to determine the number of components manually. It allows the determination of the number of components using various criteria from functions psych::VSS and nFactors::nScree functions
+#'
+#' @param data dataset - all variables are analyzed
+#'
+#' @return list with dataframe and flextable
+#' @export
 nfac.flex <- function(data) {
   pca <- psych::principal(data, nfactors = ncol(data), rotate = "none")
   q2 <- nFactors::nScree(x = pca$values, model = "components")
